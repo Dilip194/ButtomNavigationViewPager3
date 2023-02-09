@@ -57,11 +57,14 @@ class DashboardFragment : Fragment() {
         lifecycleScope.launch{
                 val layoutManager = LinearLayoutManager(activity)
                 binding.recyclerViewDash.layoutManager = layoutManager
-               /* binding.recyclerViewDash.adapter = DashBoardAdapter(dashboardViewModel!!.gitRepoList, OnClickListener{
+            dashboardViewModel?.listRepoData?.let {
+                binding.recyclerViewDash.adapter = DashBoardAdapter(dashboardViewModel?.listRepoData!!, OnClickListener{
                     val intent = Intent(activity, DetailsActivity::class.java)
                     intent.putExtra("details",it)
                     startActivity(intent)
-                })*/
+                })
+            }
+
         }
     }
 

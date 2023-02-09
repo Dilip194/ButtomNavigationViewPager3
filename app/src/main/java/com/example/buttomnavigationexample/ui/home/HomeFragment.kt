@@ -36,9 +36,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-       /* val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-*/
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         homeViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -49,15 +46,9 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         })
 
-       /* homeViewModel?.list?.observe(viewLifecycleOwner, Observer {
-            homeViewModel?.gitRepoList = it
-        })*/
-
-       /* homeViewModel?.listData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = it
-        }*/
         setupRecyclerView()
         loadData()
+        getListItem()
         return root
     }
 
@@ -82,11 +73,14 @@ class HomeFragment : Fragment() {
             homeViewModel.let {
                 homeViewModel!!.listData.collect {
                     Log.d("aaa", "load: $it")
-                    //homeViewModel!!.list = it
                     gitAdapter.submitData(it)
                 }
             }
 
         }
+    }
+    fun getListItem(){
+        homeViewModel?.listRepoData = gitAdapter.snapshot().items
+        Log.d("aaa", "git: ${homeViewModel?.listRepoData}")
     }
 }
