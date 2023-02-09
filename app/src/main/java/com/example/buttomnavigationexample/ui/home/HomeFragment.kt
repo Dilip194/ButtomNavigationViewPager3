@@ -48,13 +48,17 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         loadData()
-        getListItem()
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getListItem()
     }
 
     private fun setupRecyclerView() {
@@ -79,7 +83,7 @@ class HomeFragment : Fragment() {
 
         }
     }
-    fun getListItem(){
+    private fun getListItem(){
         homeViewModel?.listRepoData = gitAdapter.snapshot().items
         Log.d("aaa", "git: ${homeViewModel?.listRepoData}")
     }
