@@ -47,7 +47,11 @@ class HomeFragment : Fragment() {
         })
 
         setupRecyclerView()
-        loadData()
+
+        homeViewModel!!.liveData.observe(viewLifecycleOwner, Observer {
+            Log.d("aaa", "load: $it")
+            gitAdapter.submitData(lifecycle,it)
+        })
         return root
     }
 
@@ -69,18 +73,6 @@ class HomeFragment : Fragment() {
                 1, StaggeredGridLayoutManager.VERTICAL
             )
             setHasFixedSize(true)
-        }
-    }
-
-    private fun loadData() {
-        lifecycleScope.launch {
-            homeViewModel.let {
-                homeViewModel!!.listData.collect {
-                    Log.d("aaa", "load: $it")
-                    gitAdapter.submitData(it)
-                }
-            }
-
         }
     }
     private fun getListItem(){
